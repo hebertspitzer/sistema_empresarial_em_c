@@ -1,2 +1,2 @@
-# sistema_de_empresarial_em_c
+# sistema_empresarial_em_c
 Repositorio criado para a criação do codigo em c de um sistema interno de uma empresa, contendo cadastro de empresas, busca de clientes, login...
