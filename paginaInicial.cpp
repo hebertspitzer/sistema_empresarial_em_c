@@ -13,6 +13,7 @@ do{
     printf("3 - Financeiro\n");
     printf("4 - Tarefas\n");
     printf("5 - Possiveis clientes\n");
+    printf("0 - Finalizar o sistema\n");
 
     printf("Digite o numero da pagina desejada:");
     scanf("%d",&select);
