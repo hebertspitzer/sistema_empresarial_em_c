@@ -2,7 +2,22 @@
 #include <stdlib.h>
 #include <locale.h>
 
+typedef struct {
+	char id[4];
+	char name[25];
+	char cnpj[14];
+}Cliente;
+
+
 int CustomersPage(){
+	FILE *farq;
+	Cliente tempCliente[30], cliente[30];
+	int cont;
+	
+	farq = fopen("contcliente.txt", "rb");
+	fread(&cont, sizeof(int), 1, farq);
+	printf("%d",cont);
+	
     //setlocale permite usar acentos para isso precisa importar a biblioteca "<locale.h>" em cima
     setlocale(LC_ALL, "Portuguese");
 
@@ -10,7 +25,7 @@ int CustomersPage(){
     int select;
 
 do{
-    printf("--------------Página de clientes---------------\n");
+    printf("--------------Pï¿½gina de clientes---------------\n");
     printf("1 - Ver todos os clientes\n");
     printf("2 - adicionar novo cliente\n");
     printf("3 - remover um cliente\n");
@@ -19,7 +34,7 @@ do{
     printf("-----------------------------------------------\n");
 
 
-    printf("Digite o número da Função desejada:");
+    printf("Digite o nï¿½mero da Funï¿½ï¿½o desejada:");
     scanf("%d",&select);
 
     //switch case usado para selecionar o item do menu
@@ -32,6 +47,21 @@ do{
     case 2:
         system("cls");
         printf("adicionar novo cliente\n");
+        printf("Digite o id do %dï¿½ cliente (atï¿½ 4 caracteres): ",cont+1);
+		scanf("%s", &cliente[cont].id);
+		printf("Digite o nome do %dï¿½ cliente",cont+1);
+		scanf("%s", &cliente[cont].name);
+		printf("Digite o cnpj do %d cliente (o cnpj tem 14 numeros): ",cont+1);
+		scanf("%s", &cliente[cont].cnpj);
+		cont++;
+		
+		farq = fopen("arqclientes.txt", "wb");
+		fwrite(cliente, sizeof(Cliente), cont+1, farq); // grava o array de registros alunos
+		fclose(farq);
+		
+		farq = fopen("contcliente.txt", "wb");
+		fwrite(&cont, sizeof(int), 1, farq);
+		fclose(farq);
         break;
     case 3:
         system("cls");
@@ -46,7 +76,7 @@ do{
         break;
     }
     if(select < 0 || select > 4){
-        printf("O número da função não e válido\n");
+        printf("O nï¿½mero da funï¿½ï¿½o nï¿½o e vï¿½lido\n");
     }
 
 }while (select != 0);
