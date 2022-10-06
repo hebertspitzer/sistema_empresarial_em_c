@@ -3,6 +3,7 @@
 #include <locale.h>
 #include "CustumersPage.h"
 #include "MarketingPage.h"
+#include "FinancierPage.h"
 
 int main(){
     //setlocale permite usar acentos para isso precisa inportar a biblioteca "<locale.h>" em cima
@@ -37,7 +38,7 @@ do{
         break;
     case 3:
         system("cls");
-        printf("\t\tPágina de Financeiro selecionada\n");
+        FinancierPage();
         break;
     case 4:
         system("cls");
