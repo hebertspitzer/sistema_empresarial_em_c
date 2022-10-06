@@ -5,9 +5,10 @@
 #include "MarketingPage.h"
 #include "FinancierPage.h"
 #include "TaskPage.h"
+#include "PotentialCustomersPage.h"
 
 int main(){
-    //setlocale permite usar acentos para isso precisa inportar a biblioteca "<locale.h>" em cima
+    //setlocale permite usar acentos para isso precisa importar a biblioteca "<locale.h>" em cima
     setlocale(LC_ALL, "Portuguese");
 
     //var usada para selecionar o item do menu
@@ -47,7 +48,7 @@ do{
         break;
     case 5:
         system("cls");
-        printf("\t\tPágina de Possíveis clientes selecionada\n");
+        PotentialCustomersPage();
         break;
     default:
         system("cls");
