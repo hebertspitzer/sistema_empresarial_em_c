@@ -1,0 +1,4 @@
+#serve para não subir para o github arquivos inuteis 
+
+#este "*.exe" esta fazendo com que não de para subir nenhum arquivo com final .exe no repositorio do github
+*.exe
