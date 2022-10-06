@@ -4,6 +4,7 @@
 #include "CustumersPage.h"
 #include "MarketingPage.h"
 #include "FinancierPage.h"
+#include "TaskPage.h"
 
 int main(){
     //setlocale permite usar acentos para isso precisa inportar a biblioteca "<locale.h>" em cima
@@ -42,7 +43,7 @@ do{
         break;
     case 4:
         system("cls");
-        printf("\t\tPágina de Tarefas selecionada\n");
+        TaskPage();
         break;
     case 5:
         system("cls");
