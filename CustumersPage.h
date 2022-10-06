@@ -10,12 +10,14 @@ int CustomersPage(){
     int select;
 
 do{
-    printf("-----------------Página de clientes-----------------\n");
+    printf("--------------Página de clientes---------------\n");
     printf("1 - Ver todos os clientes\n");
     printf("2 - adicionar novo cliente\n");
     printf("3 - remover um cliente\n");
     printf("4 - editar um cliente\n");
     printf("0 - Voltar para o menu\n");
+    printf("-----------------------------------------------\n");
+
 
     printf("Digite o número da Função desejada:");
     scanf("%d",&select);
