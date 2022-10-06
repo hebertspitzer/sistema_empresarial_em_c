@@ -25,7 +25,7 @@ int CustomersPage(){
     int select;
 
 do{
-    printf("--------------Pï¿½gina de clientes---------------\n");
+    printf("--------------Página de clientes---------------\n");
     printf("1 - Ver todos os clientes\n");
     printf("2 - adicionar novo cliente\n");
     printf("3 - remover um cliente\n");
@@ -34,7 +34,7 @@ do{
     printf("-----------------------------------------------\n");
 
 
-    printf("Digite o nï¿½mero da Funï¿½ï¿½o desejada:");
+    printf("Digite o número da Função desejada:");
     scanf("%d",&select);
 
     //switch case usado para selecionar o item do menu
@@ -43,13 +43,19 @@ do{
     case 1:
         system("cls");
         printf("Ver todos os clientes\n");
+        farq = fopen("arqclientes.txt", "rb");
+		fread(&tempCliente, sizeof(Cliente), cont+1, farq); // lê o quarto registro de aluno
+		for(int i = 0;i < cont;i++ ){
+		printf("\n\n%s\n%s\n%s\n----------\n", tempCliente[i].id, tempCliente[i].name, tempCliente[i].cnpj);
+		fclose(farq);
+	}
         break;
     case 2:
         system("cls");
         printf("adicionar novo cliente\n");
-        printf("Digite o id do %dï¿½ cliente (atï¿½ 4 caracteres): ",cont+1);
+        printf("Digite o id do %d° cliente (até 4 caracteres): ",cont+1);
 		scanf("%s", &cliente[cont].id);
-		printf("Digite o nome do %dï¿½ cliente",cont+1);
+		printf("Digite o nome do %d° cliente",cont+1);
 		scanf("%s", &cliente[cont].name);
 		printf("Digite o cnpj do %d cliente (o cnpj tem 14 numeros): ",cont+1);
 		scanf("%s", &cliente[cont].cnpj);
@@ -76,7 +82,7 @@ do{
         break;
     }
     if(select < 0 || select > 4){
-        printf("O nï¿½mero da funï¿½ï¿½o nï¿½o e vï¿½lido\n");
+        printf("O número da função não e válido\n");
     }
 
 }while (select != 0);
