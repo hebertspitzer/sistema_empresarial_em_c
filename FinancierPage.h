@@ -3,7 +3,7 @@
 #include <locale.h>
 
 int FinancierPage(){
-    //setlocale permite usar acentos para isso precisa inportar a biblioteca "<locale.h>" em cima
+    //setlocale permite usar acentos para isso precisa importar a biblioteca "<locale.h>" em cima
     setlocale(LC_ALL, "Portuguese");
 
     //var usada para selecionar o item do menu
