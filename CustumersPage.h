@@ -3,20 +3,14 @@
 #include <locale.h>
 
 typedef struct {
-	char id[4];
-	char name[25];
-	char cnpj[14];
+	char id[5];
+	char name[26];
+	char cnpj[15];
 }Cliente;
 
+void CriaCliente();
 
 int CustomersPage(){
-	FILE *farq;
-	Cliente tempCliente[30], cliente[30];
-	int cont;
-	
-	farq = fopen("contcliente.txt", "rb");
-	fread(&cont, sizeof(int), 1, farq);
-	printf("%d",cont);
 	
     //setlocale permite usar acentos para isso precisa importar a biblioteca "<locale.h>" em cima
     setlocale(LC_ALL, "Portuguese");
@@ -41,33 +35,13 @@ do{
     switch (select)
     {
     case 1:
-        system("cls");
+    	system("cls");
         printf("Ver todos os clientes\n");
-        farq = fopen("arqclientes.txt", "rb");
-		fread(&tempCliente, sizeof(Cliente), cont+1, farq); // lê o quarto registro de aluno
-		for(int i = 0;i < cont;i++ ){
-		printf("\n\n%s\n%s\n%s\n----------\n", tempCliente[i].id, tempCliente[i].name, tempCliente[i].cnpj);
-		fclose(farq);
-	}
         break;
     case 2:
-        system("cls");
+    	system("cls");
         printf("adicionar novo cliente\n");
-        printf("Digite o id do %d° cliente (até 4 caracteres): ",cont+1);
-		scanf("%s", &cliente[cont].id);
-		printf("Digite o nome do %d° cliente",cont+1);
-		scanf("%s", &cliente[cont].name);
-		printf("Digite o cnpj do %d cliente (o cnpj tem 14 numeros): ",cont+1);
-		scanf("%s", &cliente[cont].cnpj);
-		cont++;
-		
-		farq = fopen("arqclientes.txt", "wb");
-		fwrite(cliente, sizeof(Cliente), cont+1, farq); // grava o array de registros alunos
-		fclose(farq);
-		
-		farq = fopen("contcliente.txt", "wb");
-		fwrite(&cont, sizeof(int), 1, farq);
-		fclose(farq);
+        CriaCliente();
         break;
     case 3:
         system("cls");
@@ -87,4 +61,29 @@ do{
 
 }while (select != 0);
 
+}
+
+void CriaCliente() {
+	FILE *farq = fopen("clientes.bin", "rb");
+	if(farq == NULL){
+		exit(0);
+	}
+	Cliente tcliente;
+	
+	printf("Digite o id do cliente: ");
+	scanf( "%4s", tcliente.id);
+	fflush(stdin);
+	printf("Digite o nome do cliente: ");
+	scanf( "%25s", tcliente.name);
+	fflush(stdin);
+	printf("Digite o cnpj do cliente: ");
+	scanf( "%14s", tcliente.cnpj);
+	fflush(stdin);
+	
+	printf("%s",tcliente.id);
+	printf("%s",tcliente.name);
+	printf("%s",tcliente.cnpj);
+	
+	
+	
 }
