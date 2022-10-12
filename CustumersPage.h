@@ -88,6 +88,7 @@ void CriaCliente() {
 	
 	fprintf(farq, "%s %s %s\n", tcliente.id, tcliente.name, tcliente.cnpj);
 	fclose(farq);
+	//quando vai escrever novamente apaga o que ja estava escrito
 }
 
 void ListaClientes(){
@@ -99,4 +100,5 @@ void ListaClientes(){
 		fscanf(farq, "%s %s %s", tcliente.id, tcliente.name, tcliente.cnpj);
 		printf("%s \n%s \n%s\n", tcliente.id, tcliente.name, tcliente.cnpj);
 	fclose(farq);
+	//nao consegue ler nome com espaço
 }
