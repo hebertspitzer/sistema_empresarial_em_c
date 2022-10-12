@@ -9,6 +9,7 @@ typedef struct {
 }Cliente;
 
 void CriaCliente();
+void ListaClientes();
 
 int CustomersPage(){
 	
@@ -37,6 +38,7 @@ do{
     case 1:
     	system("cls");
         printf("Ver todos os clientes\n");
+        ListaClientes();
         break;
     case 2:
     	system("cls");
@@ -64,7 +66,7 @@ do{
 }
 
 void CriaCliente() {
-	FILE *farq = fopen("clientes.bin", "rb");
+	FILE *farq = fopen("clientes.txt", "w");
 	if(farq == NULL){
 		exit(0);
 	}
@@ -84,6 +86,17 @@ void CriaCliente() {
 	printf("name: %s\n",tcliente.name);
 	printf("cnpj: %s\n",tcliente.cnpj);
 	
-	fwrite(&tcliente, sizeof(Cliente), 1, farq);
+	fprintf(farq, "%s %s %s\n", tcliente.id, tcliente.name, tcliente.cnpj);
+	fclose(farq);
+}
+
+void ListaClientes(){
+	FILE *farq = fopen("clientes.txt", "r");
+	if(farq == NULL){
+		exit(0);
+	}
+		Cliente tcliente;
+		fscanf(farq, "%s %s %s", tcliente.id, tcliente.name, tcliente.cnpj);
+		printf("%s \n%s \n%s\n", tcliente.id, tcliente.name, tcliente.cnpj);
 	fclose(farq);
 }
