@@ -74,16 +74,16 @@ void CriaCliente() {
 	scanf( "%4s", tcliente.id);
 	fflush(stdin);
 	printf("Digite o nome do cliente: ");
-	scanf( "%25s", tcliente.name);
+	scanf( "%25[^\n]s", tcliente.name);
 	fflush(stdin);
 	printf("Digite o cnpj do cliente: ");
 	scanf( "%14s", tcliente.cnpj);
 	fflush(stdin);
 	
-	printf("%s",tcliente.id);
-	printf("%s",tcliente.name);
-	printf("%s",tcliente.cnpj);
+	printf("id: %s\n",tcliente.id);
+	printf("name: %s\n",tcliente.name);
+	printf("cnpj: %s\n",tcliente.cnpj);
 	
-	
-	
+	fwrite(&tcliente, sizeof(Cliente), 1, farq);
+	fclose(farq);
 }
