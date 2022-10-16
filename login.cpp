@@ -8,7 +8,7 @@ typedef struct {
 	char senha[20];
 }Conta;
 
-
+void FazerLogin();
 void CriaConta();
 
 int main(){
@@ -27,7 +27,7 @@ do{
     {
     case 1:
     	system("cls");
-        printf("Pagina de login selecionada\n");
+    	FazerLogin();
         break;
     case 2:
     	system("cls");
@@ -75,3 +75,38 @@ void CriaConta(){
 	fprintf(farq, "\n%s %s %s", tconta.email, tconta.nome, tconta.senha);
 	fclose(farq);
 }
+
+void FazerLogin(){
+	char email[30], senha[30];
+	int verificacao=0;
+	
+	printf("Insira o seu email: ");
+	scanf( "%29s", email);
+	fflush(stdin);
+	printf("Insira a sua senha: ");
+	scanf( "%19s", senha);
+	fflush(stdin);
+	
+	FILE *farq = fopen("conta.txt", "r+b");
+	if(farq == NULL){
+		exit(0);
+	}
+	fseek(farq, 0, SEEK_SET);
+	while(!feof(farq)){
+		Conta tconta;
+		fscanf(farq, "%s %s %s", tconta.email, tconta.nome, tconta.senha);
+		printf("----\n%s- \n%s- \n%s-\n-----", tconta.email, tconta.nome, tconta.senha);
+		printf("\ndados inseridos do usuario\n%s- \n%s-", email, senha);
+		
+		if(email == tconta.email) {
+			verificacao = 1;
+		}
+		printf("%d", verificacao);
+	}
+	fclose(farq);
+	if(verificacao == 1){
+		printf("Acesso liberado");
+	} else {
+		printf("Os dados inseridos são invalidos");
+	}
+	}
