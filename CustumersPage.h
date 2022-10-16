@@ -37,12 +37,10 @@ do{
     {
     case 1:
     	system("cls");
-        printf("Ver todos os clientes\n");
         ListaClientes();
         break;
     case 2:
     	system("cls");
-        printf("adicionar novo cliente\n");
         CriaCliente();
         break;
     case 3:
@@ -66,7 +64,7 @@ do{
 }
 
 void CriaCliente() {
-	FILE *farq = fopen("clientes.txt", "w");
+	FILE *farq = fopen("clientes.txt", "a");
 	if(farq == NULL){
 		exit(0);
 	}
@@ -81,24 +79,29 @@ void CriaCliente() {
 	printf("Digite o cnpj do cliente: ");
 	scanf( "%14s", tcliente.cnpj);
 	fflush(stdin);
+	system("cls");
 	
+	printf("\t------Cliente adicionado com sucesso------\n");
 	printf("id: %s\n",tcliente.id);
 	printf("name: %s\n",tcliente.name);
-	printf("cnpj: %s\n",tcliente.cnpj);
+	printf("cnpj: %s\n\n",tcliente.cnpj);
 	
-	fprintf(farq, "%s %s %s\n", tcliente.id, tcliente.name, tcliente.cnpj);
+	fprintf(farq, "\n%s %s %s", tcliente.id, tcliente.name, tcliente.cnpj);
 	fclose(farq);
 	//quando vai escrever novamente apaga o que ja estava escrito
 }
 
 void ListaClientes(){
-	FILE *farq = fopen("clientes.txt", "r");
+	FILE *farq = fopen("clientes.txt", "r+b");
 	if(farq == NULL){
 		exit(0);
 	}
+	fseek(farq, 0, SEEK_SET);
+	while(!feof(farq)){
 		Cliente tcliente;
 		fscanf(farq, "%s %s %s", tcliente.id, tcliente.name, tcliente.cnpj);
-		printf("%s \n%s \n%s\n", tcliente.id, tcliente.name, tcliente.cnpj);
+		printf("Id:%s \nNome:%s \nCNPJ:%s\n--------------------------------\n", tcliente.id, tcliente.name, tcliente.cnpj);
+	}
 	fclose(farq);
 	//nao consegue ler nome com espaço
 }
