@@ -2,7 +2,15 @@
 #include <stdlib.h>
 #include <locale.h>
 
+typedef struct {
+	char informacao[100];
+}Info;
+
+void CriaInformacao();
+void ListaInformacoes();
+
 int MarketingPage(){
+	
     //setlocale permite usar acentos para isso precisa importar a biblioteca "<locale.h>" em cima
     setlocale(LC_ALL, "Portuguese");
 
@@ -10,7 +18,7 @@ int MarketingPage(){
     int select;
 
 do{
-    printf("--------------Página de Marketing--------------\n");
+     printf("--------------Página de Marketing--------------\n");
     printf("1 - Ver todas as informações de marketing da empresa\n");
     printf("2 - adicionar nova informação\n");
     printf("3 - remover uma informação\n");
@@ -26,20 +34,20 @@ do{
     switch (select)
     {
     case 1:
-        system("cls");
-        printf("Ver todas as informações de marketing da empresa\n");
+    	system("cls");
+        ListaInformacoes();
         break;
     case 2:
-        system("cls");
-        printf("adicionar nova informação\n");
+    	system("cls");
+        CriaInformacao();
         break;
     case 3:
         system("cls");
-        printf("remover uma informação\n");
+        printf("remover uma informacao\n");
         break;
     case 4:
         system("cls");
-        printf("editar uma informação\n");
+        printf("editar uma informacao\n");
         break;
     default:
         system("cls");
@@ -52,3 +60,38 @@ do{
 }while (select != 0);
 
 }
+
+void CriaInformacao() {
+	FILE *farq = fopen("informacoes.txt", "a");
+	if(farq == NULL){
+		exit(0);
+	}
+	Info tinfo;
+	
+	printf("Digite a informacao de marketing: ");
+	scanf( "%99[^\n]s", tinfo.informacao);
+	fflush(stdin);
+	system("cls");
+	
+	printf("\t------informação adicionada com sucesso------\n");
+	printf("informação: %s\n",tinfo.informacao);
+	
+	fprintf(farq, "\n%s", tinfo.informacao);
+	fclose(farq);
+}
+
+void ListaInformacoes(){
+	FILE *farq = fopen("informacoes.txt", "r+b");
+	if(farq == NULL){
+		exit(0);
+	}
+	fseek(farq, 0, SEEK_SET);
+	while(!feof(farq)){
+		Info tinfo;
+		fscanf(farq, "%s", tinfo.informacao);
+		printf("Informação: %s\n--------------------------------\n", tinfo.informacao);
+	}
+	fclose(farq);
+	//nao consegue ler nome com espaço
+}
+
