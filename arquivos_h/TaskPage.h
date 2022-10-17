@@ -63,7 +63,7 @@ do{
 }
 
 void CriaTarefa() {
-	FILE *farq = fopen("tarefas.txt", "a");
+	FILE *farq = fopen("arquivos_txt/tarefas.txt", "a");
 	if(farq == NULL){
 		exit(0);
 	}
@@ -85,7 +85,7 @@ void CriaTarefa() {
 }
 
 void ListaTarefas(){
-	FILE *farq = fopen("tarefas.txt", "r+b");
+	FILE *farq = fopen("arquivos_txt/tarefas.txt", "r+b");
 	if(farq == NULL){
 		exit(0);
 	}

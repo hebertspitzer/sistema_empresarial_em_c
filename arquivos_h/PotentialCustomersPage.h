@@ -64,7 +64,7 @@ do{
 }
 
 void CriaPossivelCliente() {
-	FILE *farq = fopen("possiveisClientes.txt", "a");
+	FILE *farq = fopen("arquivos_txt/possiveisClientes.txt", "a");
 	if(farq == NULL){
 		exit(0);
 	}
@@ -91,7 +91,7 @@ void CriaPossivelCliente() {
 }
 
 void ListaPossiveisclientes(){
-	FILE *farq = fopen("possiveisClientes.txt", "r+b");
+	FILE *farq = fopen("arquivos_txt/possiveisClientes.txt", "r+b");
 	if(farq == NULL){
 		exit(0);
 	}

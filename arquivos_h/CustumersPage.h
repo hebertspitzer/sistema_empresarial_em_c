@@ -64,7 +64,7 @@ do{
 }
 
 void CriaCliente() {
-	FILE *farq = fopen("clientes.txt", "a");
+	FILE *farq = fopen("arquivos_txt/clientes.txt", "a");
 	if(farq == NULL){
 		exit(0);
 	}
@@ -91,7 +91,7 @@ void CriaCliente() {
 }
 
 void ListaClientes(){
-	FILE *farq = fopen("clientes.txt", "r+b");
+	FILE *farq = fopen("arquivos_txt/clientes.txt", "r+b");
 	if(farq == NULL){
 		exit(0);
 	}

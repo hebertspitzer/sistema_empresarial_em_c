@@ -65,7 +65,7 @@ do{
 }
 
 void CriaFinancas() {
-	FILE *farq = fopen("financas.txt", "a");
+	FILE *farq = fopen("arquivos_txt/financas.txt", "a");
 	if(farq == NULL){
 		exit(0);
 	}
@@ -87,7 +87,7 @@ void CriaFinancas() {
 }
 
 void ListaFinancas(){
-	FILE *farq = fopen("financas.txt", "r+b");
+	FILE *farq = fopen("arquivos_txt/financas.txt", "r+b");
 	if(farq == NULL){
 		exit(0);
 	}

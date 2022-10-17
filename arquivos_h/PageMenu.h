@@ -7,7 +7,7 @@
 #include "TaskPage.h"
 #include "PotentialCustomersPage.h"
 
-int main(){
+int Menu(){
     //setlocale permite usar acentos para isso precisa importar a biblioteca "<locale.h>" em cima
     setlocale(LC_ALL, "Portuguese");
 

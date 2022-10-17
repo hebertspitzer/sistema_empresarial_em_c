@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <locale.h>
+#include <Windows.h>
+#include "arquivos_h/PageMenu.h"
 
 typedef struct {
 	char email[30];
@@ -42,7 +44,7 @@ do{
     }
     if(select < 0 || select > 3){
     	system("cls");
-        printf("O numero da opcao nao e valido\n");
+        printf("O número da opcao não e valido\n");
     }
 
 }while (select != 0);
@@ -50,7 +52,7 @@ do{
 
 
 void CriaConta(){
-	FILE *farq = fopen("conta.txt", "a");
+	FILE *farq = fopen("arquivos_txt/conta.txt", "a");
 	if(farq == NULL){
 		exit(0);
 	}
@@ -87,7 +89,7 @@ void FazerLogin(){
 	scanf( "%19s", senha);
 	fflush(stdin);
 	
-	FILE *farq = fopen("conta.txt", "r+b");
+	FILE *farq = fopen("arquivos_txt/conta.txt", "r+b");
 	if(farq == NULL){
 		exit(0);
 	}
@@ -95,18 +97,21 @@ void FazerLogin(){
 	while(!feof(farq)){
 		Conta tconta;
 		fscanf(farq, "%s %s %s", tconta.email, tconta.nome, tconta.senha);
-		printf("----\n%s- \n%s- \n%s-\n-----", tconta.email, tconta.nome, tconta.senha);
-		printf("\ndados inseridos do usuario\n%s- \n%s-", email, senha);
 		
 		if(email == tconta.email) {
 			verificacao = 1;
 		}
-		printf("%d", verificacao);
 	}
 	fclose(farq);
-	if(verificacao == 1){
-		printf("Acesso liberado");
+	if(verificacao == 0){
+		system("cls");
+		printf("Acesso liberado\n");
+		Sleep(500);
+		system("cls");
+		Menu();
+		
 	} else {
+		system("cls");
 		printf("Os dados inseridos são invalidos");
 	}
 	}

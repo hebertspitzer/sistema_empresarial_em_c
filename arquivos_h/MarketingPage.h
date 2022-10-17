@@ -62,7 +62,7 @@ do{
 }
 
 void CriaInformacao() {
-	FILE *farq = fopen("informacoes.txt", "a");
+	FILE *farq = fopen("arquivos_txt/informacoes.txt", "a");
 	if(farq == NULL){
 		exit(0);
 	}
@@ -81,7 +81,7 @@ void CriaInformacao() {
 }
 
 void ListaInformacoes(){
-	FILE *farq = fopen("informacoes.txt", "r+b");
+	FILE *farq = fopen("arquivos_txt/informacoes.txt", "r+b");
 	if(farq == NULL){
 		exit(0);
 	}
