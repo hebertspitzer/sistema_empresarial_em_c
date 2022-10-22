@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <locale.h>
 #include <Windows.h>
+#include <string.h>
 #include "arquivos_h/PageMenu.h"
 
 typedef struct {
@@ -80,7 +81,8 @@ void CriaConta(){
 
 void FazerLogin(){
 	char email[30], senha[30];
-	int verificacao=0;
+	int verificacao=0, testeSenha, testeEmail;
+	char temail[30];
 	
 	printf("Insira o seu email: ");
 	scanf( "%29s", email);
@@ -97,21 +99,21 @@ void FazerLogin(){
 	while(!feof(farq)){
 		Conta tconta;
 		fscanf(farq, "%s %s %s", tconta.email, tconta.nome, tconta.senha);
-		
-		if(email == tconta.email) {
-			verificacao = 1;
-		}
+		testeEmail = strncmp(tconta.email, email, 29);
+		testeSenha = strncmp(tconta.senha, senha, 19);
 	}
 	fclose(farq);
-	if(verificacao == 0){
+	
+	if(testeEmail>0 || testeEmail<0 || testeSenha>0 || testeSenha<0){
+		system("cls");
+		printf("*********Os dados inseridos são invalidos*********");
+		Sleep(1000);
+		system("cls");
+	}else{
 		system("cls");
 		printf("Acesso liberado\n");
 		Sleep(500);
 		system("cls");
 		Menu();
-		
-	} else {
-		system("cls");
-		printf("Os dados inseridos são invalidos");
 	}
 	}
