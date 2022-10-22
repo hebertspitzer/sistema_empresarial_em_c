@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <locale.h>
+#include <string.h>
 
 typedef struct {
 	int prazo;
@@ -63,6 +64,7 @@ do{
 }
 
 void CriaTarefa() {
+	char tstring[101];
 	FILE *farq = fopen("arquivos_txt/tarefas.txt", "a");
 	if(farq == NULL){
 		exit(0);
@@ -73,14 +75,24 @@ void CriaTarefa() {
 	scanf( "%d", &ttarefas.prazo);
 	fflush(stdin);
 	printf("Digite a tarefa: ");
-	scanf( "%100s", ttarefas.tarefa);
+	fgets(ttarefas.tarefa, sizeof(ttarefas.tarefa), stdin);
 	fflush(stdin);
 	
-	printf("\t------Tarefa adicionada com sucesso------\n");
+	for(int i = 0; i < 101; i++) {
+        if (ttarefas.tarefa[i] == ' '){
+        	tstring[i] = '_';
+		}else if(ttarefas.tarefa[i] == '\n'){
+        	tstring[i] = '\0';
+        }else{
+        	tstring[i] = ttarefas.tarefa[i];
+		}
+    }
+    
+    printf("\t------Tarefa adicionada com sucesso------\n");
 	printf("Prazo: %d horas\n",ttarefas.prazo);
-	printf("Tarefa: %s\n",ttarefas.tarefa);
+	printf("Tarefa: %s\n",tstring);
 	
-	fprintf(farq, "\n%d %s", ttarefas.prazo, ttarefas.tarefa);
+	fprintf(farq, "\n%d %s", ttarefas.prazo, tstring);
 	fclose(farq);
 }
 
