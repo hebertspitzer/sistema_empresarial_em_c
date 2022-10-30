@@ -37,10 +37,12 @@ do{
     {
     case 1:
     	system("cls");
+    	fflush(stdin);
         ListaPossiveisclientes();
         break;
     case 2:
     	system("cls");
+    	fflush(stdin);
         CriaPossivelCliente();
         break;
     case 3:
@@ -69,10 +71,21 @@ void CriaPossivelCliente() {
 		exit(0);
 	}
 	PossivelCliente tpossivelCliente;
-	
+	char tstring[25];
 	printf("Digite o nome do possivel cliente: ");
-	scanf( "%25s", tpossivelCliente.nome);
+	scanf( "%25[^\n]s", tpossivelCliente.nome);
 	fflush(stdin);
+	
+	for(int i = 0; i < 25; i++) {
+        if (tpossivelCliente.nome[i] == ' '){
+        	tstring[i] = '_';
+		}else if(tpossivelCliente.nome[i] == '\n'){
+        	tstring[i] = '\0';
+        }else{
+        	tstring[i] = tpossivelCliente.nome[i];
+		}
+    }
+    
 	printf("Digite o email do possivel cliente: ");
 	scanf( "%30s", tpossivelCliente.email);
 	fflush(stdin);
@@ -86,7 +99,7 @@ void CriaPossivelCliente() {
 	printf("Email: %s\n",tpossivelCliente.email);
 	printf("Telefone: %s\n\n",tpossivelCliente.telefone);
 	
-	fprintf(farq, "\n%s %s %s", tpossivelCliente.nome, tpossivelCliente.email, tpossivelCliente.telefone);
+	fprintf(farq, "\n%s %s %s", tstring, tpossivelCliente.email, tpossivelCliente.telefone);
 	fclose(farq);
 }
 
@@ -95,11 +108,23 @@ void ListaPossiveisclientes(){
 	if(farq == NULL){
 		exit(0);
 	}
+	
+	char tstring[25];
 	fseek(farq, 0, SEEK_SET);
 	while(!feof(farq)){
 		PossivelCliente tpossivelCliente;
+		
 		fscanf(farq, "%s %s %s", tpossivelCliente.nome, tpossivelCliente.email, tpossivelCliente.telefone);
-		printf("Nome:%s \nEmail:%s \nTelefone:%s\n--------------------------------\n", tpossivelCliente.nome, tpossivelCliente.email, tpossivelCliente.telefone);
+		
+		for(int i = 0; i < 25; i++) {
+        	if (tpossivelCliente.nome[i] == '_'){
+        		tstring[i] = ' ';
+			}else{
+        		tstring[i] = tpossivelCliente.nome[i];
+			}
+    	}
+		
+		printf("Nome:%s \nEmail:%s \nTelefone:%s\n--------------------------------\n", tstring, tpossivelCliente.email, tpossivelCliente.telefone);
 	}
 	fclose(farq);
 	//nao consegue ler nome com espaço
