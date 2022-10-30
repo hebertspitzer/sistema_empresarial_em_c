@@ -109,11 +109,11 @@ void ListaInformacoes(){
 		fscanf(farq, "%s", tinfo.informacao);
 		
 		for(int i = 0; i < 99; i++) {
-        if (tinfo.informacao[i] == '_'){
-        	tstring[i] = ' ';
-		}else{
-        	tstring[i] = tinfo.informacao[i];
-		}
+        	if (tinfo.informacao[i] == '_'){
+        		tstring[i] = ' ';
+			}else{
+        		tstring[i] = tinfo.informacao[i];
+			}
     	}
 		printf("Informação: %s\n--------------------------------\n", tstring);
 	}
