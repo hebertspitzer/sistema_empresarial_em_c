@@ -1,15 +1,18 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <locale.h>
+#include <string.h>
 
 typedef struct {
 	char id[5];
 	char name[26];
 	char cnpj[15];
+	int ativo;
 }Cliente;
 
 void CriaCliente();
 void ListaClientes();
+int ExcluiCliente();
 
 int CustomersPage(){
 	
@@ -45,7 +48,7 @@ do{
         break;
     case 3:
         system("cls");
-        printf("remover um cliente\n");
+        ExcluiCliente();
         break;
     case 4:
         system("cls");
@@ -69,6 +72,7 @@ void CriaCliente() {
 		exit(0);
 	}
 	Cliente tcliente;
+	char tstring[26];
 	
 	printf("Digite o id do cliente: ");
 	scanf( "%4s", tcliente.id);
@@ -76,17 +80,28 @@ void CriaCliente() {
 	printf("Digite o nome do cliente: ");
 	scanf( "%25[^\n]s", tcliente.name);
 	fflush(stdin);
+	for(int i = 0; i < 26; i++) {
+        if (tcliente.name[i] == ' '){
+        	tstring[i] = '_';
+		}else if(tcliente.name[i] == '\n'){
+        	tstring[i] = '\0';
+        }else{
+        	tstring[i] = tcliente.name[i];
+		}
+    }
 	printf("Digite o cnpj do cliente: ");
 	scanf( "%14s", tcliente.cnpj);
 	fflush(stdin);
 	system("cls");
+	
+	tcliente.ativo = 1;
 	
 	printf("\t------Cliente adicionado com sucesso------\n");
 	printf("id: %s\n",tcliente.id);
 	printf("name: %s\n",tcliente.name);
 	printf("cnpj: %s\n\n",tcliente.cnpj);
 	
-	fprintf(farq, "\n%s %s %s", tcliente.id, tcliente.name, tcliente.cnpj);
+	fprintf(farq, "\n%s %s %s %d", tcliente.id, tstring, tcliente.cnpj, tcliente.ativo);
 	fclose(farq);
 }
 
@@ -95,11 +110,50 @@ void ListaClientes(){
 	if(farq == NULL){
 		exit(0);
 	}
+	char tstring[26];
 	fseek(farq, 0, SEEK_SET);
 	while(!feof(farq)){
 		Cliente tcliente;
-		fscanf(farq, "%s %s %s", tcliente.id, tcliente.name, tcliente.cnpj);
-		printf("Id:%s \nNome:%s \nCNPJ:%s\n--------------------------------\n", tcliente.id, tcliente.name, tcliente.cnpj);
+		fscanf(farq, "%s %s %s %d", tcliente.id, tcliente.name, tcliente.cnpj, &tcliente.ativo);
+		
+		for(int i = 0; i < 26; i++) {
+        if (tcliente.name[i] == '_'){
+        	tstring[i] = ' ';
+		}else{
+        	tstring[i] = tcliente.name[i];
+		}
+    	}
+		printf("Id:%s \nNome:%s \nCNPJ:%s\n--------------------------------\n", tcliente.id, tstring, tcliente.cnpj);
+	}
+	fclose(farq);
+	//nao consegue ler nome com espaço
+}
+
+int ExcluiCliente(){
+	FILE *farq = fopen("arquivos_txt/clientes.txt", "r+");
+	if(farq == NULL){
+		exit(0);
+	}
+	char id[5];
+	
+	printf("Qual o id do cliente que voce deseja excluir: ");
+	scanf( "%4s", id);
+	
+	fseek(farq, 0, SEEK_SET);
+	
+	while(!feof(farq)){
+		Cliente tcliente;
+		int buscaId;
+		fscanf(farq, "%s %s %s %d", tcliente.id, tcliente.name, tcliente.cnpj, &tcliente.ativo);
+		buscaId = strncmp(tcliente.id, id, 4);
+		if(buscaId == 0){
+			fclose(farq);
+			FILE *arq = fopen("arquivos_txt/clientes.txt", "a");
+			tcliente.ativo = 0;
+			fprintf(arq, "\n%d",tcliente.ativo);
+			return(0);
+		}
+		printf("\n%d\n",buscaId);
 	}
 	fclose(farq);
 	//nao consegue ler nome com espaço
