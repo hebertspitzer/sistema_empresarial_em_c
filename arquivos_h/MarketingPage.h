@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <locale.h>
+#include <string.h>
 
 typedef struct {
 	char informacao[100];
@@ -35,18 +36,22 @@ do{
     {
     case 1:
     	system("cls");
+    	fflush(stdin);
         ListaInformacoes();
         break;
     case 2:
     	system("cls");
+    	fflush(stdin);
         CriaInformacao();
         break;
     case 3:
         system("cls");
+        fflush(stdin);
         printf("remover uma informacao\n");
         break;
     case 4:
         system("cls");
+        fflush(stdin);
         printf("editar uma informacao\n");
         break;
     default:
@@ -67,16 +72,27 @@ void CriaInformacao() {
 		exit(0);
 	}
 	Info tinfo;
+	char tstring[99];
 	
 	printf("Digite a informacao de marketing: ");
-	scanf( "%99[^\n]s", tinfo.informacao);
+	scanf("%99[^\n]s", tinfo.informacao);
 	fflush(stdin);
 	system("cls");
+	
+	for(int i = 0; i < 99; i++) {
+        if (tinfo.informacao[i] == ' '){
+        	tstring[i] = '_';
+		}else if(tinfo.informacao[i] == '\n'){
+        	tstring[i] = '\0';
+        }else{
+        	tstring[i] = tinfo.informacao[i];
+		}
+    }
 	
 	printf("\t------informação adicionada com sucesso------\n");
 	printf("informação: %s\n",tinfo.informacao);
 	
-	fprintf(farq, "\n%s", tinfo.informacao);
+	fprintf(farq, "\n%s", tstring);
 	fclose(farq);
 }
 
@@ -88,8 +104,18 @@ void ListaInformacoes(){
 	fseek(farq, 0, SEEK_SET);
 	while(!feof(farq)){
 		Info tinfo;
+		char tstring[99];
+		
 		fscanf(farq, "%s", tinfo.informacao);
-		printf("Informação: %s\n--------------------------------\n", tinfo.informacao);
+		
+		for(int i = 0; i < 99; i++) {
+        if (tinfo.informacao[i] == '_'){
+        	tstring[i] = ' ';
+		}else{
+        	tstring[i] = tinfo.informacao[i];
+		}
+    	}
+		printf("Informação: %s\n--------------------------------\n", tstring);
 	}
 	fclose(farq);
 	//nao consegue ler nome com espaço

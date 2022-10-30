@@ -30,10 +30,12 @@ do{
     {
     case 1:
     	system("cls");
+    	fflush(stdin);
     	FazerLogin();
         break;
     case 2:
     	system("cls");
+    	fflush(stdin);
         CriaConta();
         break;
     case 3:
