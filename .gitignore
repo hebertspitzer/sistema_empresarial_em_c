@@ -3,3 +3,4 @@
 #este "*.exe" esta fazendo com que não de para subir nenhum arquivo com final .exe no repositorio do github
 *.exe
 *.gch
+*.txt
