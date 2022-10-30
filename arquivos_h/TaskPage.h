@@ -90,7 +90,7 @@ void CriaTarefa() {
     
     printf("\t------Tarefa adicionada com sucesso------\n");
 	printf("Prazo: %d horas\n",ttarefas.prazo);
-	printf("Tarefa: %s\n",tstring);
+	printf("Tarefa: %s\n",ttarefas.tarefa);
 	
 	fprintf(farq, "\n%d %s", ttarefas.prazo, tstring);
 	fclose(farq);
@@ -101,11 +101,20 @@ void ListaTarefas(){
 	if(farq == NULL){
 		exit(0);
 	}
+	char tstring[101];
 	fseek(farq, 0, SEEK_SET);
 	while(!feof(farq)){
 		Tarefas ttarefas;
 		fscanf(farq, "%d %s", &ttarefas.prazo, ttarefas.tarefa);
-		printf("Prazo:%d horas\nTarefa:%s\n--------------------------------\n", ttarefas.prazo, ttarefas.tarefa);
+		
+		for(int i = 0; i < 101; i++) {
+        if (ttarefas.tarefa[i] == '_'){
+        	tstring[i] = ' ';
+		}else{
+        	tstring[i] = ttarefas.tarefa[i];
+		}
+    	}
+		printf("Prazo:%d horas\nTarefa:%s\n--------------------------------\n", ttarefas.prazo, tstring);
 	}
 	fclose(farq);
 	//nao consegue ler nome com espaço
