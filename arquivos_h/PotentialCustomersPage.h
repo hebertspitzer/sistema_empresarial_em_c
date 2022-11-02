@@ -69,7 +69,7 @@ do{
 //fim da função principal main
 }
 
-//criação da função CriaFinancas
+//criação da função CriaPossivelCliente
 void CriaPossivelCliente() {
 	
 	//abrindo o arquivo
@@ -123,6 +123,7 @@ void CriaPossivelCliente() {
 	fclose(farq);
 }
 
+//criação da função ListaPossiveisclientes
 void ListaPossiveisclientes(){
 	
 	//abrindo o arquivo
