@@ -62,8 +62,12 @@ do{
     
 //se o numero selecionado for zero o sistema finaliza
 }while (select != 0);
+
+//fim da função principal main
 }
 
+
+//criação da função CriaConta
 
 void CriaConta(){
 	FILE *farq = fopen("arquivos_txt/conta.txt", "a");
@@ -92,7 +96,9 @@ void CriaConta(){
 	fclose(farq);
 }
 
+//criação da função FazerLogin
 void FazerLogin(){
+	
 	//declaração das variaveis que serão utilizadas
 	char email[30], senha[30];
 	int testeSenha, testeEmail;
@@ -145,4 +151,4 @@ void FazerLogin(){
 		system("cls");
 		Menu();
 	}
-	}
+}
