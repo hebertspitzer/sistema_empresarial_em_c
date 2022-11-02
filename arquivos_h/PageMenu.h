@@ -24,6 +24,7 @@ do{
     printf("\t\t0 - Voltar para login\n");
     printf("-----------------------------------------------\n");
 
+	//entrada do numero da função
     printf("Digite o número da página desejada:");
     scanf("%d",&select);
 
@@ -54,10 +55,12 @@ do{
         system("cls");
         break;
     }
+    //teste para se o usuario inserir numero menor ou maior do que o permitido
     if(select < 0 || select > 5){
         printf("\t\tO número da página não e válido\n");
     }
-
+//se o numero selecionado for zero o sistema finaliza
 }while (select != 0);
 
+//fim da função principal main
 }
