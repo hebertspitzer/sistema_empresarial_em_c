@@ -68,20 +68,30 @@ do{
 
 
 //criação da função CriaConta
-
-void CriaConta(){
+void CriaConta()
+	
+	//abrindo o arquivo
 	FILE *farq = fopen("arquivos_txt/conta.txt", "a");
+	
+	//verificando se o arquivo abriu corretamente
 	if(farq == NULL){
 		exit(0);
 	}
+	
+	//declaração das variaveis
 	Conta tconta;
 	
+	//entrada do email
 	printf("Digite o seu email: ");
 	scanf( "%29s", tconta.email);
 	fflush(stdin);
+	
+	//entrada do nome
 	printf("Digite o seu nome: ");
 	scanf( "%25[^\n]s", tconta.nome);
 	fflush(stdin);
+	
+	//entrada da senha
 	printf("Digite a senha: ");
 	scanf( "%19s", tconta.senha);
 	fflush(stdin);
@@ -92,7 +102,10 @@ void CriaConta(){
 	printf("nome: %s\n",tconta.nome);
 	printf("\t------------------------------------------\n");
 	
+	//salvando as infos do cliente no arquivo txt
 	fprintf(farq, "\n%s %s %s", tconta.email, tconta.nome, tconta.senha);
+	
+	//fechando o arquivo
 	fclose(farq);
 }
 
