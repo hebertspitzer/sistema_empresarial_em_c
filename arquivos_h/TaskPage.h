@@ -13,6 +13,7 @@ typedef struct {
 //declarando as funções
 void CriaTarefa();
 void ListaTarefas();
+void ExcluiTarefas();
 
 int TaskPage(){
 	
@@ -48,7 +49,7 @@ do{
         break;
     case 3:
         system("cls");
-        printf("remover um cliente\n");
+        ExcluiTarefas();
         break;
     case 4:
         system("cls");
@@ -160,4 +161,84 @@ void ListaTarefas(){
 	fclose(farq);
 	//fechando o arquivo
 }
+
+//criação da função ExcluiTarefas
+void ExcluiTarefas(){
+	//declaração das variaveis
+	Tarefas ttarefas[50];
+	int cont=0, excTarefa=-1;
+	char id[5];
+	
+	//entrada do id da tarefa
+	printf("Qual o id da tarefa que voce deseja excluir: ");
+	scanf( "%4s", id);
+	
+	//Abrindo o arquivo
+	FILE *original = fopen("arquivos_txt/tarefas.txt", "r+b");
+	
+	//verificando se o arquivo abriu corretamente
+	if(original == NULL){
+		exit(0);
+	}
+	
+	//posicionando no inicio do arquivo
+	fseek(original, 0, SEEK_SET);
+	
+	//lendo linha por linha do arquivo ate o fim dele
+	while(!feof(original)){
+		//declarando a variavel
+		int buscaId;
+		
+		//lendo as infos do arquivo e salvando nas struct ttarefas
+		fscanf(original, "%s %d %s", ttarefas[cont].id, &ttarefas[cont].prazo, ttarefas[cont].tarefa);
+		
+		//buscando o id do financa digitado
+    	buscaId = strncmp(ttarefas[cont].id, id, 4);
+    	
+    	//salvando a posição que esta a financa que deseja remover 
+    	if(buscaId == 0){
+    		excTarefa = cont;
+		}
+		
+		//aumentando o contador para criar uma nova financa
+		cont++;
+	}
+	//fechando o arquivo
+	fclose(original);
+	
+	//verificando se existe o id digitado
+	if(excTarefa == -1){
+		system("cls");
+		printf("\nO id da tarefa não existe\n");
+	} else {
+	
+		//criando um novo arquivo
+		FILE *alterado = fopen("arquivos_txt/alterado.txt", "a");
+	
+		//passando tudo do antigo arquivo para este novo, menos a financa removido
+		for(int i=0;i<cont;i++){
+		
+			if(i == excTarefa) {
+				printf("-");
+			} else {
+				fprintf(alterado, "\n%s %d %s", ttarefas[i].id, ttarefas[i].prazo, ttarefas[i].tarefa);
+			}
+		}
+	
+		//fechando o arquivo
+		fclose(alterado);
+	
+		//removendo o antigo arquivo
+		remove("arquivos_txt/tarefas.txt");
+	
+		//renomeando o novo arquivo
+		rename("arquivos_txt/alterado.txt", "arquivos_txt/tarefas.txt");
+	
+		//limpando a tela e falando que a tarefa foi excluido
+		system("cls");
+		printf("a tarefa foi excluida com sucesso\n");
+	}
+}
+
+
 
