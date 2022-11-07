@@ -192,15 +192,15 @@ void ExcluiTarefas(){
 		//lendo as infos do arquivo e salvando nas struct ttarefas
 		fscanf(original, "%s %d %s", ttarefas[cont].id, &ttarefas[cont].prazo, ttarefas[cont].tarefa);
 		
-		//buscando o id do financa digitado
+		//buscando o id da tarefa digitado
     	buscaId = strncmp(ttarefas[cont].id, id, 4);
     	
-    	//salvando a posição que esta a financa que deseja remover 
+    	//salvando a posição que esta a tarefa que deseja remover 
     	if(buscaId == 0){
     		excTarefa = cont;
 		}
 		
-		//aumentando o contador para criar uma nova financa
+		//aumentando o contador para criar uma nova tarefa
 		cont++;
 	}
 	//fechando o arquivo
@@ -215,7 +215,7 @@ void ExcluiTarefas(){
 		//criando um novo arquivo
 		FILE *alterado = fopen("arquivos_txt/alterado.txt", "a");
 	
-		//passando tudo do antigo arquivo para este novo, menos a financa removido
+		//passando tudo do antigo arquivo para este novo, menos a tarefa removida
 		for(int i=0;i<cont;i++){
 		
 			if(i == excTarefa) {
@@ -239,6 +239,3 @@ void ExcluiTarefas(){
 		printf("a tarefa foi excluida com sucesso\n");
 	}
 }
-
-
-

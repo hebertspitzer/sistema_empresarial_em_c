@@ -13,6 +13,7 @@ typedef struct {
 //declarando as funções
 void CriaPossivelCliente();
 void ListaPossiveisclientes();
+void ExcluiPossiveisclientes();
 
 int PotentialCustomersPage(){
 	
@@ -50,7 +51,7 @@ do{
         break;
     case 3:
         system("cls");
-        printf("remover um possivel cliente\n");
+        ExcluiPossiveisclientes();
         break;
     case 4:
         system("cls");
@@ -168,5 +169,83 @@ void ListaPossiveisclientes(){
 	}
 	//fechando o arquivo
 	fclose(farq);
+}
+
+//criação da função ExcluiPossiveisTarefas
+void ExcluiPossiveisclientes(){
+	//declaração das variaveis
+	PossivelCliente tpossivelCliente[50];
+	int cont=0, excPossivelCliente=-1;
+	char id[5];
+	
+	//entrada do id do possivel cliente
+	printf("Qual o id do possivel cliente que voce deseja excluir: ");
+	scanf( "%4s", id);
+	
+	//Abrindo o arquivo
+	FILE *original = fopen("arquivos_txt/possiveisClientes.txt", "r+b");
+	
+	//verificando se o arquivo abriu corretamente
+	if(original == NULL){
+		exit(0);
+	}
+	
+	//posicionando no inicio do arquivo
+	fseek(original, 0, SEEK_SET);
+	
+	//lendo linha por linha do arquivo ate o fim dele
+	while(!feof(original)){
+		//declarando a variavel
+		int buscaId;
+		
+		//lendo as infos do arquivo e salvando nas struct ttarefas
+		fscanf(original, "%s %s %s %s",tpossivelCliente[cont].id ,tpossivelCliente[cont].nome, tpossivelCliente[cont].email, tpossivelCliente[cont].telefone);
+		
+		//buscando o id do possivel cliente digitado
+    	buscaId = strncmp(tpossivelCliente[cont].id, id, 4);
+    	
+    	//salvando a posição que esta o possivel cliente que deseja remover 
+    	if(buscaId == 0){
+    		excPossivelCliente = cont;
+		}
+		
+		//aumentando o contador para criar um novo possivel cliente
+		cont++;
+	}
+	//fechando o arquivo
+	fclose(original);
+	
+	//verificando se existe o id digitado
+	if(excPossivelCliente == -1){
+		system("cls");
+		printf("\nO id do possivel cliente não existe\n");
+	} else {
+	
+		//criando um novo arquivo
+		FILE *alterado = fopen("arquivos_txt/alterado.txt", "a");
+	
+		//passando tudo do antigo arquivo para este novo, menos o possivel cliente removido
+		for(int i=0;i<cont;i++){
+		
+			if(i == excPossivelCliente) {
+				printf("-");
+			} else {
+				fprintf(alterado, "\n%s %s %s %s",tpossivelCliente[i].id, tpossivelCliente[i].nome, tpossivelCliente[i].email, tpossivelCliente[i].telefone);
+			}
+		}
+	
+		//fechando o arquivo
+		fclose(alterado);
+	
+		//removendo o antigo arquivo
+		remove("arquivos_txt/possiveisClientes.txt");
+	
+		//renomeando o novo arquivo
+		rename("arquivos_txt/alterado.txt", "arquivos_txt/possiveisClientes.txt");
+	
+		//limpando a tela e falando que o possivel cliente foi excluido
+		system("cls");
+		printf("o possivel cliente foi excluido com sucesso\n");
+	}
 }
 
