@@ -85,7 +85,7 @@ void CriaFinancas() {
 	//declaração das variaveis
 	Financas tfinancas;
 	
-	//entrada do id do finança
+	//entrada do id da finança
 	printf("Digite o id da finança: ");
 	scanf( "%4s", tfinancas.id);
 	fflush(stdin);

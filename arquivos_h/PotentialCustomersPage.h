@@ -4,6 +4,7 @@
 
 //declarando uma struct
 typedef struct {
+	char id[5];
 	char nome[26];
 	char email[31];
 	char telefone[12];
@@ -84,6 +85,11 @@ void CriaPossivelCliente() {
 	PossivelCliente tpossivelCliente;
 	char tstring[25];
 	
+	//entrada do id do finança
+	printf("Digite o id do possivel cliente: ");
+	scanf( "%4s", tpossivelCliente.id);
+	fflush(stdin);
+	
 	//entrada do nome do possivel cliente
 	printf("Digite o nome do possivel cliente: ");
 	scanf( "%25[^\n]s", tpossivelCliente.nome);
@@ -112,12 +118,13 @@ void CriaPossivelCliente() {
 	system("cls");
 	
 	printf("\t------possivel cliente adicionado com sucesso------\n");
+	printf("Id: %s\n",tpossivelCliente.id);
 	printf("Nome: %s\n",tpossivelCliente.nome);
 	printf("Email: %s\n",tpossivelCliente.email);
 	printf("Telefone: %s\n\n",tpossivelCliente.telefone);
 	
 	//salvando as infos do cliente no arquivo txt
-	fprintf(farq, "\n%s %s %s", tstring, tpossivelCliente.email, tpossivelCliente.telefone);
+	fprintf(farq, "\n%s %s %s %s",tpossivelCliente.id, tstring, tpossivelCliente.email, tpossivelCliente.telefone);
 	
 	//fechando o arquivo
 	fclose(farq);
@@ -145,7 +152,7 @@ void ListaPossiveisclientes(){
 		PossivelCliente tpossivelCliente;
 		
 		//lendo as infos do arquivo e salvando na struct tpossivelCliente
-		fscanf(farq, "%s %s %s", tpossivelCliente.nome, tpossivelCliente.email, tpossivelCliente.telefone);
+		fscanf(farq, "%s %s %s %s",tpossivelCliente.id ,tpossivelCliente.nome, tpossivelCliente.email, tpossivelCliente.telefone);
 		
 		//tratando o nome do cliente, trocando o "_" por espaço
 		for(int i = 0; i < 25; i++) {
@@ -157,7 +164,7 @@ void ListaPossiveisclientes(){
     	}
 		
 		//imprimindo as infos da struct tpossivelCliente
-		printf("Nome:%s \nEmail:%s \nTelefone:%s\n--------------------------------\n", tstring, tpossivelCliente.email, tpossivelCliente.telefone);
+		printf("Id:%s \nNome:%s \nEmail:%s \nTelefone:%s\n--------------------------------\n", tpossivelCliente.id ,tstring, tpossivelCliente.email, tpossivelCliente.telefone);
 	}
 	//fechando o arquivo
 	fclose(farq);
