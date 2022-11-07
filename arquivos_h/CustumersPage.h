@@ -14,7 +14,7 @@ typedef struct {
 //declarando as funções
 void CriaCliente();
 void ListaClientes();
-int ExcluiCliente();
+void ExcluiCliente();
 
 int CustomersPage(){
 	
@@ -173,53 +173,80 @@ void ListaClientes(){
 }
 
 //criação da função ExcluiCliente AINDA NAO ESTA FUNCIONANDO
-int ExcluiCliente(){
-	
-	//abrindo o arquivo
-	FILE *farq = fopen("arquivos_txt/clientes.txt", "r+");
-	
-	//verificando se o arquivo abriu corretamente
-	if(farq == NULL){
-		exit(0);
-	}
-	
+void ExcluiCliente(){
 	//declaração das variaveis
+	Cliente tcliente[50];
+	int cont=0, excCliente=-1;
 	char id[5];
 	
 	//entrada do id do cliente
 	printf("Qual o id do cliente que voce deseja excluir: ");
 	scanf( "%4s", id);
 	
-	//apontando no inicio do arquivo
-	fseek(farq, 0, SEEK_SET);
+	//Abrindo o arquivo
+	FILE *original = fopen("arquivos_txt/clientes.txt", "r+b");
+	
+	//verificando se o arquivo abriu corretamente
+	if(original == NULL){
+		exit(0);
+	}
+	
+	//posicionando no inicio do arquivo
+	fseek(original, 0, SEEK_SET);
 	
 	//lendo linha por linha do arquivo ate o fim dele
-	while(!feof(farq)){
-		//declaração das variaveis
-		Cliente tcliente;
+	while(!feof(original)){
+		//declarando a variavel
 		int buscaId;
 		
-		//lendo as infos do arquivo e salvando na struct tcliente
-		fscanf(farq, "%s %s %s %d", tcliente.id, tcliente.name, tcliente.cnpj, &tcliente.ativo);
+		//lendo as infos do arquivo e salvando nas struct tcliente
+		fscanf(original, "%s %s %s %d", tcliente[cont].id, tcliente[cont].name, tcliente[cont].cnpj, &tcliente[cont].ativo);
 		
-		//comparando o id digitado com os ids do arquivo
-		buscaId = strncmp(tcliente.id, id, 4);
-		
-		
-		if(buscaId == 0){
-			fclose(farq);
-			printf("teste");
-			Sleep(500);
-			FILE *farq = fopen("arquivos_txt/clientes.txt", "a");
-			tcliente.ativo = 10;
-			printf("%d",tcliente.ativo);
-			Sleep(500);
-			fprintf(farq, "\n%d",tcliente.ativo);
-			return(0);
+		//buscando o id do cliente digitado
+    	buscaId = strncmp(tcliente[cont].id, id, 4);
+    	
+    	//salvando a posição que esta o cliente que deseja remover 
+    	if(buscaId == 0){
+    		excCliente = cont;
 		}
-		printf("\n%d\n",buscaId);
+		
+		//aumentando o contador para criar um novo cliente
+		cont++;
 	}
 	//fechando o arquivo
-	fclose(farq);
+	fclose(original);
+	
+	//verificando se existe o id digitado
+	if(excCliente == -1){
+		system("cls");
+		printf("\nO id do cliente não existe\n");
+	} else {
+	
+		//criando um novo arquivo
+		FILE *alterado = fopen("arquivos_txt/alterado.txt", "a");
+	
+		//passando tudo do antigo arquivo para este novo, menos o cliente removido
+		for(int i=0;i<cont;i++){
+		
+			if(i == excCliente) {
+				printf("-");
+			} else {
+				fprintf(alterado, "\n%s %s %s %d", tcliente[i].id, tcliente[i].name, tcliente[i].cnpj, tcliente[i].ativo);
+			}
+		}
+	
+		//fechando o arquivo
+		fclose(alterado);
+	
+		//removendo o antigo arquivo
+		remove("arquivos_txt/clientes.txt");
+	
+		//renomeando o novo arquivo
+		rename("arquivos_txt/alterado.txt", "arquivos_txt/clientes.txt");
+	
+		//limpando a tela e falando que o cliente foi excluido
+		system("cls");
+		printf("o cliente foi excluido com sucesso\n");
+	}
 }
 
