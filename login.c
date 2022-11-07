@@ -68,7 +68,7 @@ do{
 
 
 //criação da função CriaConta
-void CriaConta()
+void CriaConta() {
 	
 	//abrindo o arquivo
 	FILE *farq = fopen("arquivos_txt/conta.txt", "a");

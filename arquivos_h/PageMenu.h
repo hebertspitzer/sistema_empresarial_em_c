@@ -2,7 +2,6 @@
 #include <stdlib.h>
 #include <locale.h>
 #include "CustumersPage.h"
-#include "MarketingPage.h"
 #include "FinancierPage.h"
 #include "TaskPage.h"
 #include "PotentialCustomersPage.h"
@@ -17,10 +16,9 @@ int Menu(){
 do{
     printf("--------------------Páginas--------------------\n");
     printf("\t\t1 - Clientes\n");
-    printf("\t\t2 - Marketing\n");
-    printf("\t\t3 - Financeiro\n");
-    printf("\t\t4 - Tarefas\n");
-    printf("\t\t5 - Possíveis clientes\n");
+    printf("\t\t2 - Financeiro\n");
+    printf("\t\t3 - Tarefas\n");
+    printf("\t\t4 - Possíveis clientes\n");
     printf("\t\t0 - Voltar para login\n");
     printf("-----------------------------------------------\n");
 
@@ -37,17 +35,13 @@ do{
         break;
     case 2:
         system("cls");
-        MarketingPage();
+        FinancierPage();
         break;
     case 3:
         system("cls");
-        FinancierPage();
-        break;
-    case 4:
-        system("cls");
         TaskPage();
         break;
-    case 5:
+    case 4:
         system("cls");
         PotentialCustomersPage();
         break;
@@ -56,7 +50,7 @@ do{
         break;
     }
     //teste para se o usuario inserir numero menor ou maior do que o permitido
-    if(select < 0 || select > 5){
+    if(select < 0 || select > 4){
         printf("\t\tO número da página não e válido\n");
     }
 //se o numero selecionado for zero o sistema finaliza
