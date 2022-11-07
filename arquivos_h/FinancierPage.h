@@ -12,6 +12,7 @@ typedef struct {
 //declarando as funções
 void CriaFinancas();
 void ListaFinancas();
+void ExcluiFinanca();
 
 int FinancierPage(){
 	
@@ -50,7 +51,7 @@ do{
         break;
     case 3:
         system("cls");
-        printf("remover uma finança\n");
+        ExcluiFinanca();
         break;
     case 4:
         system("cls");
@@ -143,4 +144,83 @@ void ListaFinancas(){
 	//fechando o arquivo
 	fclose(farq);
 }
+
+//criação da função ExcluiFinanca
+void ExcluiFinanca(){
+	//declaração das variaveis
+	Financas tfinancas[50];
+	int cont=0, excFinanca=-1;
+	char id[5];
+	
+	//entrada do id da financa
+	printf("Qual o id da finança que voce deseja excluir: ");
+	scanf( "%4s", id);
+	
+	//Abrindo o arquivo
+	FILE *original = fopen("arquivos_txt/financas.txt", "r+b");
+	
+	//verificando se o arquivo abriu corretamente
+	if(original == NULL){
+		exit(0);
+	}
+	
+	//posicionando no inicio do arquivo
+	fseek(original, 0, SEEK_SET);
+	
+	//lendo linha por linha do arquivo ate o fim dele
+	while(!feof(original)){
+		//declarando a variavel
+		int buscaId;
+		
+		//lendo as infos do arquivo e salvando nas struct tfinancas
+		fscanf(original, "%s %f %f", tfinancas[cont].id, &tfinancas[cont].valorEnt, &tfinancas[cont].valorSaido);
+		
+		//buscando o id do financa digitado
+    	buscaId = strncmp(tfinancas[cont].id, id, 4);
+    	
+    	//salvando a posição que esta a financa que deseja remover 
+    	if(buscaId == 0){
+    		excFinanca = cont;
+		}
+		
+		//aumentando o contador para criar uma nova financa
+		cont++;
+	}
+	//fechando o arquivo
+	fclose(original);
+	
+	//verificando se existe o id digitado
+	if(excFinanca == -1){
+		system("cls");
+		printf("\nO id da finança não existe\n");
+	} else {
+	
+		//criando um novo arquivo
+		FILE *alterado = fopen("arquivos_txt/alterado.txt", "a");
+	
+		//passando tudo do antigo arquivo para este novo, menos a financa removido
+		for(int i=0;i<cont;i++){
+		
+			if(i == excFinanca) {
+				printf("-");
+			} else {
+				fprintf(alterado, "\n%s %f %f", tfinancas[i].id, tfinancas[i].valorEnt, tfinancas[i].valorSaido);
+			}
+		}
+	
+		//fechando o arquivo
+		fclose(alterado);
+	
+		//removendo o antigo arquivo
+		remove("arquivos_txt/financas.txt");
+	
+		//renomeando o novo arquivo
+		rename("arquivos_txt/alterado.txt", "arquivos_txt/financas.txt");
+	
+		//limpando a tela e falando que a financa foi excluido
+		system("cls");
+		printf("a finança foi excluida com sucesso\n");
+	}
+}
+
 
