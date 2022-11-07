@@ -5,6 +5,7 @@
 
 //declarando uma struct
 typedef struct {
+	char id[5];
 	int prazo;
 	char tarefa[101];
 }Tarefas;
@@ -82,6 +83,11 @@ void CriaTarefa() {
 	Tarefas ttarefas;
 	char tstring[101];
 	
+	//entrada do id da tarefa
+	printf("Digite o id da tarefa: ");
+	scanf( "%4s", ttarefas.id);
+	fflush(stdin);
+	
 	//entrada do prazo da tarefa
 	printf("Digite o prazo da tarefa em horas: ");
 	scanf( "%d", &ttarefas.prazo);
@@ -103,12 +109,14 @@ void CriaTarefa() {
 		}
     }
     
+    system("cls");
     printf("\t------Tarefa adicionada com sucesso------\n");
+    printf("Id: %s\n",ttarefas.id);
 	printf("Prazo: %d horas\n",ttarefas.prazo);
 	printf("Tarefa: %s\n",ttarefas.tarefa);
 	
 	//salvando as infos do cliente no arquivo txt
-	fprintf(farq, "\n%d %s", ttarefas.prazo, tstring);
+	fprintf(farq, "\n%s %d %s", ttarefas.id, ttarefas.prazo, tstring);
 	
 	//fechando o arquivo
 	fclose(farq);
@@ -136,7 +144,7 @@ void ListaTarefas(){
 		Tarefas ttarefas;
 		
 		//lendo as infos do arquivo e salvando na struct ttarefas
-		fscanf(farq, "%d %s", &ttarefas.prazo, ttarefas.tarefa);
+		fscanf(farq, "%s %d %s", ttarefas.id, &ttarefas.prazo, ttarefas.tarefa);
 		
 		//tratando o nome do cliente, trocando o "_" por espaço
 		for(int i = 0; i < 101; i++) {
@@ -147,7 +155,7 @@ void ListaTarefas(){
 		}
     	}
     	//imprimindo as infos da struct ttarefas
-		printf("Prazo:%d horas\nTarefa:%s\n--------------------------------\n", ttarefas.prazo, tstring);
+		printf("Id:%s \nPrazo:%d horas\nTarefa:%s\n--------------------------------\n",ttarefas.id, ttarefas.prazo, tstring);
 	}
 	fclose(farq);
 	//fechando o arquivo
