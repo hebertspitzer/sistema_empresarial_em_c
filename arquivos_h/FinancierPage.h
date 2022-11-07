@@ -4,6 +4,7 @@
 
 //declarando uma struct
 typedef struct {
+	char id[5];
 	float valorEnt;
 	float valorSaido;
 }Financas;
@@ -84,6 +85,11 @@ void CriaFinancas() {
 	//declaração das variaveis
 	Financas tfinancas;
 	
+	//entrada do id do finança
+	printf("Digite o id da finança: ");
+	scanf( "%4s", tfinancas.id);
+	fflush(stdin);
+	
 	//entrada do valor entrado
 	printf("Digite o valor entrado: ");
 	scanf( "%f", &tfinancas.valorEnt);
@@ -94,12 +100,14 @@ void CriaFinancas() {
 	scanf( "%f", &tfinancas.valorSaido);
 	fflush(stdin);
 	
+	system("cls");
 	printf("\t------Finança adicionada com sucesso------\n");
-	printf("valor entrado: %f\n",tfinancas.valorEnt);
-	printf("valor saido: %f\n",tfinancas.valorSaido);
+	printf("id: %s\n",tfinancas.id);
+	printf("valor entrado: %.2f\n",tfinancas.valorEnt);
+	printf("valor saido: %.2f\n",tfinancas.valorSaido);
 	
 	//salvando as informações no arquivo txt
-	fprintf(farq, "\n%f %f", tfinancas.valorEnt, tfinancas.valorSaido);
+	fprintf(farq, "\n%s %f %f", tfinancas.id, tfinancas.valorEnt, tfinancas.valorSaido);
 	
 	//fechando o arquivo
 	fclose(farq);
@@ -126,10 +134,10 @@ void ListaFinancas(){
 		Financas tfinancas;
 		
 		//lendo as infos do arquivo e salvando na struct tfinancas
-		fscanf(farq, "%f %f", &tfinancas.valorEnt, &tfinancas.valorSaido);
+		fscanf(farq, "%s %f %f", tfinancas.id, &tfinancas.valorEnt, &tfinancas.valorSaido);
 		
 		//imprimindo as infos da struct tfinancas
-		printf("Valor entrado: %f \nValor saido: %f\n--------------------------------\n", tfinancas.valorEnt, tfinancas.valorSaido);
+		printf("Id: %s \nValor entrado: %.2f \nValor saido: %.2f\n--------------------------------\n",tfinancas.id, tfinancas.valorEnt, tfinancas.valorSaido);
 	}
 	
 	//fechando o arquivo
