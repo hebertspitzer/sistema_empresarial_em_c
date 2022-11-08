@@ -13,6 +13,7 @@ typedef struct {
 void CriaFinancas();
 void ListaFinancas();
 void ExcluiFinanca();
+void EditarFinanca();
 
 int FinancierPage(){
 	
@@ -55,7 +56,7 @@ do{
         break;
     case 4:
         system("cls");
-        printf("editar uma finança\n");
+        EditarFinanca();
         break;
     default:
         system("cls");
@@ -222,5 +223,130 @@ void ExcluiFinanca(){
 		printf("a finança foi excluida com sucesso\n");
 	}
 }
+
+//criação da função EditarFinanca
+void EditarFinanca(){
+	//declaração das variaveis
+	Financas tfinancas[50];
+	int cont=0, financaSel=-1;
+	char id[5];
+	
+	//entrada do id da finança
+	printf("Qual o id da finança que voce deseja editar: ");
+	scanf( "%4s", id);
+	
+	//Abrindo o arquivo
+	FILE *original = fopen("arquivos_txt/financas.txt", "r+b");
+	
+	//verificando se o arquivo abriu corretamente
+	if(original == NULL){
+		exit(0);
+	}
+	
+	//posicionando no inicio do arquivo
+	fseek(original, 0, SEEK_SET);
+	
+	//lendo linha por linha do arquivo ate o fim dele
+	while(!feof(original)){
+		//declarando a variavel
+		int buscaId;
+		
+		//lendo as infos do arquivo e salvando nas struct ttarefas
+		fscanf(original, "%s %f %f", tfinancas[cont].id, &tfinancas[cont].valorEnt, &tfinancas[cont].valorSaido);
+		
+		//buscando o id da tarefa digitado
+    	buscaId = strncmp(tfinancas[cont].id, id, 4);
+    	
+    	//salvando a posição que esta a tarefa que deseja editar
+    	if(buscaId == 0){
+    		financaSel = cont;
+		}
+		
+		//aumentando o contador para criar uma nova tarefa
+		cont++;
+	}
+	//fechando o arquivo
+	fclose(original);
+	
+	//verificando se existe o id digitado
+	if(financaSel == -1){
+		system("cls");
+		printf("\nO id da finança não existe\n");
+	} else {
+		//var usada para selecionar o item do menu
+		char tstring[26];
+    	int select;
+		do{
+    		printf("------------O que vc deseja editar?------------\n");
+    		printf("1 - Id\n");
+    		printf("2 - Valor entrado\n");
+    		printf("3 - Valor saido\n");
+    		printf("-----------------------------------------------\n");
+	
+			//entrada do numero da função
+    		printf("Digite o número da Função desejada:");
+    		scanf("%d",&select);
+
+    		//switch case usado para selecionar o item do menu
+    		switch (select)
+    		{
+    		case 1:
+    			fflush(stdin);
+    			system("cls");
+        		//entrada do id da finança
+				printf("Digite o id da finança: ");
+				scanf( "%4s", tfinancas[financaSel].id);
+				fflush(stdin);
+       		 	break;
+    		case 2:
+    			system("cls");
+    			//entrada do valor entrado
+				printf("Digite o valor entrado: ");
+				scanf( "%f", &tfinancas[financaSel].valorEnt);
+				fflush(stdin);
+				fflush(stdin);
+        		break;
+    		case 3:
+        		system("cls");
+        		//entrada do valor saido
+				printf("Digite o valor saido: ");
+				scanf( "%f", &tfinancas[financaSel].valorSaido);
+				fflush(stdin);
+				system("cls");
+        		break;
+    		default:
+        		system("cls");
+        		break;
+    		}
+    		//teste para se o usuario inserir numero menor ou maior do que o permitido
+    		if(select < 0 || select > 3){
+        		printf("O número da função não e válido\n");
+    		}
+			//so sai do loop se o valor tiver uma funcao
+		}while (select < 0 || select > 3);
+		
+		//criando um novo arquivo
+		FILE *alterado = fopen("arquivos_txt/alterado.txt", "a");
+	
+		//passando tudo do antigo arquivo para este novo e a tarefa editada
+		for(int i=0;i<cont;i++){
+			fprintf(alterado, "\n%s %f %f", tfinancas[i].id, tfinancas[i].valorEnt, tfinancas[i].valorSaido);
+		}
+	
+		//fechando o arquivo
+		fclose(alterado);
+	
+		//removendo o antigo arquivo
+		remove("arquivos_txt/financas.txt");
+	
+		//renomeando o novo arquivo
+		rename("arquivos_txt/alterado.txt", "arquivos_txt/financas.txt");
+	
+		//limpando a tela e falando que a tarefa foi editado
+		system("cls");
+		printf("a finança foi editada com sucesso\n");
+	}
+}
+
 
 
