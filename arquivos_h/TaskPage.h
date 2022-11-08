@@ -14,6 +14,7 @@ typedef struct {
 void CriaTarefa();
 void ListaTarefas();
 void ExcluiTarefas();
+void EditarTarefas();
 
 int TaskPage(){
 	
@@ -53,7 +54,7 @@ do{
         break;
     case 4:
         system("cls");
-        printf("editar um cliente\n");
+        EditarTarefas();
         break;
     default:
         system("cls");
@@ -237,5 +238,138 @@ void ExcluiTarefas(){
 		//limpando a tela e falando que a tarefa foi excluido
 		system("cls");
 		printf("a tarefa foi excluida com sucesso\n");
+	}
+}
+
+//criação da função EditarTarefas
+void EditarTarefas(){
+	//declaração das variaveis
+	Tarefas ttarefas[50];
+	int cont=0, tarefaSel=-1;
+	char id[5];
+	
+	//entrada do id da tarefa
+	printf("Qual o id da tarefa que voce deseja editar: ");
+	scanf( "%4s", id);
+	
+	//Abrindo o arquivo
+	FILE *original = fopen("arquivos_txt/tarefas.txt", "r+b");
+	
+	//verificando se o arquivo abriu corretamente
+	if(original == NULL){
+		exit(0);
+	}
+	
+	//posicionando no inicio do arquivo
+	fseek(original, 0, SEEK_SET);
+	
+	//lendo linha por linha do arquivo ate o fim dele
+	while(!feof(original)){
+		//declarando a variavel
+		int buscaId;
+		
+		//lendo as infos do arquivo e salvando nas struct ttarefas
+		fscanf(original, "%s %d %s", ttarefas[cont].id, &ttarefas[cont].prazo, ttarefas[cont].tarefa);
+		
+		//buscando o id da tarefa digitado
+    	buscaId = strncmp(ttarefas[cont].id, id, 4);
+    	
+    	//salvando a posição que esta a tarefa que deseja editar
+    	if(buscaId == 0){
+    		tarefaSel = cont;
+		}
+		
+		//aumentando o contador para criar uma nova tarefa
+		cont++;
+	}
+	//fechando o arquivo
+	fclose(original);
+	
+	//verificando se existe o id digitado
+	if(tarefaSel == -1){
+		system("cls");
+		printf("\nO id da tarefa não existe\n");
+	} else {
+		//var usada para selecionar o item do menu
+    	int select;
+		do{
+    		printf("------------O que vc deseja editar?------------\n");
+    		printf("1 - Id\n");
+    		printf("2 - Prazo\n");
+    		printf("3 - Tarefa\n");
+    		printf("-----------------------------------------------\n");
+	
+			//entrada do numero da função
+    		printf("Digite o número da Função desejada:");
+    		scanf("%d",&select);
+
+    		//switch case usado para selecionar o item do menu
+    		switch (select)
+    		{
+    		case 1:
+    			system("cls");
+        		printf("Digite o novo Id:");
+        		scanf( "%4s", ttarefas[tarefaSel].id);
+				fflush(stdin);
+       		 	break;
+    		case 2:
+    			system("cls");
+				printf("Digite o novo prazo da tarefa em horas: ");
+				scanf( "%d", &ttarefas[tarefaSel].prazo);
+				fflush(stdin);
+        		break;
+    		case 3:
+        		system("cls");
+        		fflush(stdin);
+        		char tstring[101];
+        		
+				//entrada da tarefa
+				printf("Digite a nova tarefa: ");
+				fgets(tstring, sizeof(tstring), stdin);
+				fflush(stdin);
+	
+				//tratamento da tarefa alterando o espaço por "_" e salvando em outra string
+				for(int i = 0; i < 101; i++) {
+        			if (tstring[i] == ' '){
+        				ttarefas[tarefaSel].tarefa[i] = '_';
+					}else if(tstring[i] == '\n'){
+        				ttarefas[tarefaSel].tarefa[i] = '\0';
+        			}else{
+        				ttarefas[tarefaSel].tarefa[i] = tstring[i];
+					}
+    			}
+    			
+        		break;
+    		default:
+        		system("cls");
+        		break;
+    		}
+    		//teste para se o usuario inserir numero menor ou maior do que o permitido
+    		if(select < 0 || select > 3){
+        		printf("O número da função não e válido\n");
+    		}
+			//so sai do loop se o valor tiver uma funcao
+		}while (select < 0 || select > 3);
+		
+		//criando um novo arquivo
+		FILE *alterado = fopen("arquivos_txt/alterado.txt", "a");
+	
+		//passando tudo do antigo arquivo para este novo e a tarefa editada
+		for(int i=0;i<cont;i++){
+			fprintf(alterado, "\n%s %d %s", ttarefas[i].id, ttarefas[i].prazo, ttarefas[i].tarefa);
+		}
+	
+		//fechando o arquivo
+		fclose(alterado);
+	
+		//removendo o antigo arquivo
+		remove("arquivos_txt/tarefas.txt");
+	
+		//renomeando o novo arquivo
+		rename("arquivos_txt/alterado.txt", "arquivos_txt/tarefas.txt");
+	
+		//limpando a tela e falando que a tarefa foi editado
+		system("cls");
+		printf("a tarefa foi editada com sucesso\n");
 	}
 }
