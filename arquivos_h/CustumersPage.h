@@ -14,6 +14,7 @@ typedef struct {
 void CriaCliente();
 void ListaClientes();
 void ExcluiCliente();
+void EditarCliente();
 
 int CustomersPage(){
 	
@@ -53,7 +54,7 @@ do{
         break;
     case 4:
         system("cls");
-        printf("editar um cliente\n");
+        EditarCliente();
         break;
     default:
         system("cls");
@@ -243,6 +244,143 @@ void ExcluiCliente(){
 		//limpando a tela e falando que o cliente foi excluido
 		system("cls");
 		printf("o cliente foi excluido com sucesso\n");
+	}
+}
+
+//criação da função EditarCliente
+void EditarCliente(){
+	//declaração das variaveis
+	Cliente tcliente[50];
+	int cont=0, clienteSel=-1;
+	char id[5];
+	
+	//entrada do id da tarefa
+	printf("Qual o id da tarefa que voce deseja editar: ");
+	scanf( "%4s", id);
+	
+	//Abrindo o arquivo
+	FILE *original = fopen("arquivos_txt/clientes.txt", "r+b");
+	
+	//verificando se o arquivo abriu corretamente
+	if(original == NULL){
+		exit(0);
+	}
+	
+	//posicionando no inicio do arquivo
+	fseek(original, 0, SEEK_SET);
+	
+	//lendo linha por linha do arquivo ate o fim dele
+	while(!feof(original)){
+		//declarando a variavel
+		int buscaId;
+		
+		//lendo as infos do arquivo e salvando nas struct ttarefas
+		fscanf(original, "%s %s %s", tcliente[cont].id, tcliente[cont].name, tcliente[cont].cnpj);
+		
+		//buscando o id da tarefa digitado
+    	buscaId = strncmp(tcliente[cont].id, id, 4);
+    	
+    	//salvando a posição que esta a tarefa que deseja editar
+    	if(buscaId == 0){
+    		clienteSel = cont;
+		}
+		
+		//aumentando o contador para criar uma nova tarefa
+		cont++;
+	}
+	//fechando o arquivo
+	fclose(original);
+	
+	//verificando se existe o id digitado
+	if(clienteSel == -1){
+		system("cls");
+		printf("\nO id do cliente não existe\n");
+	} else {
+		//var usada para selecionar o item do menu
+		char tstring[26];
+    	int select;
+		do{
+    		printf("------------O que vc deseja editar?------------\n");
+    		printf("1 - Id\n");
+    		printf("2 - Nome\n");
+    		printf("3 - Cnpj\n");
+    		printf("-----------------------------------------------\n");
+	
+			//entrada do numero da função
+    		printf("Digite o número da Função desejada:");
+    		scanf("%d",&select);
+
+    		//switch case usado para selecionar o item do menu
+    		switch (select)
+    		{
+    		case 1:
+    			fflush(stdin);
+    			system("cls");
+        		printf("Digite o novo Id do cliente:");
+        		scanf( "%4s", tcliente[clienteSel].id);
+				fflush(stdin);
+				printf("\n%s %s %s\n",tcliente[clienteSel].id);
+       		 	break;
+    		case 2:
+    			system("cls");
+    			fflush(stdin);
+				//entrada do nome do cliente
+				printf("Digite o nome do cliente: ");
+				fgets(tstring, sizeof(tstring), stdin);
+				fflush(stdin);
+				
+				//tratamento do nome do cliente alterando o espaço por "_" e salvando em outra string
+				for(int i = 0; i < 26; i++) {
+			        if (tstring[i] == ' '){
+			        	tcliente[clienteSel].name[i] = '_';
+					}else if(tstring[i] == '\n'){
+			        	tcliente[clienteSel].name[i] = '\0';
+			        }else{
+			        	tcliente[clienteSel].name[i] = tstring[i];
+					}
+			    }
+				fflush(stdin);
+        		break;
+    		case 3:
+        		system("cls");
+        		fflush(stdin);
+        		//entrada do cnpj do cliente
+				printf("Digite o cnpj do cliente: ");
+				scanf( "%14s", tcliente[clienteSel].cnpj);
+				fflush(stdin);
+				system("cls");
+        		break;
+    		default:
+        		system("cls");
+        		break;
+    		}
+    		//teste para se o usuario inserir numero menor ou maior do que o permitido
+    		if(select < 0 || select > 3){
+        		printf("O número da função não e válido\n");
+    		}
+			//so sai do loop se o valor tiver uma funcao
+		}while (select < 0 || select > 3);
+		
+		//criando um novo arquivo
+		FILE *alterado = fopen("arquivos_txt/alterado.txt", "a");
+	
+		//passando tudo do antigo arquivo para este novo e a tarefa editada
+		for(int i=0;i<cont;i++){
+			fprintf(alterado, "\n%s %s %s", tcliente[i].id, tcliente[i].name, tcliente[i].cnpj);
+		}
+	
+		//fechando o arquivo
+		fclose(alterado);
+	
+		//removendo o antigo arquivo
+		remove("arquivos_txt/clientes.txt");
+	
+		//renomeando o novo arquivo
+		rename("arquivos_txt/alterado.txt", "arquivos_txt/clientes.txt");
+	
+		//limpando a tela e falando que a tarefa foi editado
+		system("cls");
+		printf("o cliente foi editada com sucesso\n");
 	}
 }
 
