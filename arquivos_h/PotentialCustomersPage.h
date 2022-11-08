@@ -325,6 +325,7 @@ void EditarPossiveisclientes(){
 				fflush(stdin);
        		 	break;
     		case 2:
+    			system("cls");
     			fflush(stdin);
 				printf("Digite o nome do possivel cliente: ");
 				fgets(tstring, sizeof(tstring), stdin);
@@ -348,6 +349,7 @@ void EditarPossiveisclientes(){
 				fflush(stdin);
         		break;
         	case 4:
+        		system("cls");
     			printf("Digite o novo telefone do possivel cliente: ");
 				scanf( "%11s", tpossivelCliente[possivelClienteSel].telefone);
 				fflush(stdin);

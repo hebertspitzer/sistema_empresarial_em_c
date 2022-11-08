@@ -8,7 +8,6 @@ typedef struct {
 	char id[5];
 	char name[26];
 	char cnpj[15];
-	int ativo;
 }Cliente;
 
 //declarando as funções
@@ -115,9 +114,6 @@ void CriaCliente() {
 	fflush(stdin);
 	system("cls");
 	
-	//salvando o cliente como ativo
-	tcliente.ativo = 1;
-	
 	
 	printf("\t------Cliente adicionado com sucesso------\n");
 	printf("id: %s\n",tcliente.id);
@@ -125,7 +121,7 @@ void CriaCliente() {
 	printf("cnpj: %s\n\n",tcliente.cnpj);
 	
 	//salvando as infos do cliente no arquivo txt
-	fprintf(farq, "\n%s %s %s %d", tcliente.id, tstring, tcliente.cnpj, tcliente.ativo);
+	fprintf(farq, "\n%s %s %s", tcliente.id, tstring, tcliente.cnpj);
 	
 	//fechando o arquivo
 	fclose(farq);
@@ -153,7 +149,7 @@ void ListaClientes(){
 		char tstring[26];
 		
 		//lendo as infos do arquivo e salvando na struct tcliente
-		fscanf(farq, "%s %s %s %d", tcliente.id, tcliente.name, tcliente.cnpj, &tcliente.ativo);
+		fscanf(farq, "%s %s %s", tcliente.id, tcliente.name, tcliente.cnpj);
 		
 		//tratando o nome do cliente, trocando o "_" por espaço
 		for(int i = 0; i < 26; i++) {
@@ -200,7 +196,7 @@ void ExcluiCliente(){
 		int buscaId;
 		
 		//lendo as infos do arquivo e salvando nas struct tcliente
-		fscanf(original, "%s %s %s %d", tcliente[cont].id, tcliente[cont].name, tcliente[cont].cnpj, &tcliente[cont].ativo);
+		fscanf(original, "%s %s %s", tcliente[cont].id, tcliente[cont].name, tcliente[cont].cnpj);
 		
 		//buscando o id do cliente digitado
     	buscaId = strncmp(tcliente[cont].id, id, 4);
@@ -231,7 +227,7 @@ void ExcluiCliente(){
 			if(i == excCliente) {
 				printf("-");
 			} else {
-				fprintf(alterado, "\n%s %s %s %d", tcliente[i].id, tcliente[i].name, tcliente[i].cnpj, tcliente[i].ativo);
+				fprintf(alterado, "\n%s %s %s", tcliente[i].id, tcliente[i].name, tcliente[i].cnpj);
 			}
 		}
 	
