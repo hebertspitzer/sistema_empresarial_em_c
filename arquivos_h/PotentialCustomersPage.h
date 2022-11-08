@@ -14,6 +14,7 @@ typedef struct {
 void CriaPossivelCliente();
 void ListaPossiveisclientes();
 void ExcluiPossiveisclientes();
+void EditarPossiveisclientes();
 
 int PotentialCustomersPage(){
 	
@@ -55,7 +56,7 @@ do{
         break;
     case 4:
         system("cls");
-        printf("editar um possivel cliente\n");
+        EditarPossiveisclientes();
         break;
     default:
         system("cls");
@@ -246,6 +247,143 @@ void ExcluiPossiveisclientes(){
 		//limpando a tela e falando que o possivel cliente foi excluido
 		system("cls");
 		printf("o possivel cliente foi excluido com sucesso\n");
+	}
+}
+
+//criação da função EditarPossiveisclientes
+void EditarPossiveisclientes(){
+	//declaração das variaveis
+	PossivelCliente tpossivelCliente[50];
+	int cont=0, possivelClienteSel=-1;
+	char id[5];
+	
+	//entrada do id do possivel cliente
+	printf("Qual o id do possivel cliente que voce deseja editar: ");
+	scanf( "%4s", id);
+	
+	//Abrindo o arquivo
+	FILE *original = fopen("arquivos_txt/possiveisClientes.txt", "r+b");
+	
+	//verificando se o arquivo abriu corretamente
+	if(original == NULL){
+		exit(0);
+	}
+	
+	//posicionando no inicio do arquivo
+	fseek(original, 0, SEEK_SET);
+	
+	//lendo linha por linha do arquivo ate o fim dele
+	while(!feof(original)){
+		//declarando a variavel
+		int buscaId;
+		
+		//lendo as infos do arquivo e salvando nas struct ttarefas
+		fscanf(original, "%s %s %s %s",tpossivelCliente[cont].id ,tpossivelCliente[cont].nome, tpossivelCliente[cont].email, tpossivelCliente[cont].telefone);
+		
+		//buscando o id da tarefa digitado
+    	buscaId = strncmp(tpossivelCliente[cont].id, id, 4);
+    	
+    	//salvando a posição que esta a tarefa que deseja editar
+    	if(buscaId == 0){
+    		possivelClienteSel = cont;
+		}
+		
+		//aumentando o contador para criar uma nova tarefa
+		cont++;
+	}
+	//fechando o arquivo
+	fclose(original);
+	
+	//verificando se existe o id digitado
+	if(possivelClienteSel == -1){
+		system("cls");
+		printf("\nO id do possivel cliente não existe\n");
+	} else {
+		char tstring[25];
+		//var usada para selecionar o item do menu
+    	int select;
+		do{
+    		printf("------------O que vc deseja editar?------------\n");
+    		printf("1 - Id\n");
+    		printf("2 - Nome\n");
+    		printf("3 - Email\n");
+    		printf("4 - Telefone\n");
+    		printf("-----------------------------------------------\n");
+	
+			//entrada do numero da função
+    		printf("Digite o número da Função desejada:");
+    		scanf("%d",&select);
+
+    		//switch case usado para selecionar o item do menu
+    		switch (select)
+    		{
+    		case 1:
+				//entrada do id da finança
+				system("cls");
+				printf("Digite o novo id do possivel cliente: ");
+				scanf( "%4s", tpossivelCliente[possivelClienteSel].id);
+				fflush(stdin);
+       		 	break;
+    		case 2:
+    			fflush(stdin);
+				printf("Digite o nome do possivel cliente: ");
+				fgets(tstring, sizeof(tstring), stdin);
+				fflush(stdin);
+				
+				//tratamento do nome do possivel cliente alterando o espaço por "_" e salvando em outra string
+				for(int i = 0; i < 25; i++) {
+			        if (tstring[i] == ' '){
+			        	tpossivelCliente[possivelClienteSel].nome[i] = '_';
+					}else if(tstring[i] == '\n'){
+			        	tpossivelCliente[possivelClienteSel].nome[i] = '\0';
+			        }else{
+			        	tpossivelCliente[possivelClienteSel].nome[i] = tstring[i];
+					}
+			    }
+        		break;
+    		case 3:
+			    system("cls");
+				printf("Digite o novo email do possivel cliente: ");
+				scanf( "%30s", tpossivelCliente[possivelClienteSel].email);
+				fflush(stdin);
+        		break;
+        	case 4:
+    			printf("Digite o novo telefone do possivel cliente: ");
+				scanf( "%11s", tpossivelCliente[possivelClienteSel].telefone);
+				fflush(stdin);
+				system("cls");
+        		break;
+    		default:
+        		system("cls");
+        		break;
+    		}
+    		//teste para se o usuario inserir numero menor ou maior do que o permitido
+    		if(select < 0 || select > 4){
+        		printf("O número da função não e válido\n");
+    		}
+			//so sai do loop se o valor tiver uma funcao
+		}while (select < 0 || select > 4);
+		
+		//criando um novo arquivo
+		FILE *alterado = fopen("arquivos_txt/alterado.txt", "a");
+	
+		//passando tudo do antigo arquivo para este novo e a tarefa editada
+		for(int i=0;i<cont;i++){
+			fprintf(alterado, "\n%s %s %s %s",tpossivelCliente[i].id, tpossivelCliente[i].nome, tpossivelCliente[i].email, tpossivelCliente[i].telefone);
+		}
+	
+		//fechando o arquivo
+		fclose(alterado);
+	
+		//removendo o antigo arquivo
+		remove("arquivos_txt/possiveisClientes.txt");
+	
+		//renomeando o novo arquivo
+		rename("arquivos_txt/alterado.txt", "arquivos_txt/possiveisClientes.txt");
+	
+		//limpando a tela e falando que a tarefa foi editado
+		system("cls");
+		printf("o possivel cliente foi editada com sucesso\n");
 	}
 }
 
